@@ -77,13 +77,13 @@ The application uses Riverpod for state management in conjuction with riverpod_g
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/wilsongreat/
+git clone https://github.com/wilsongreat/vesti_assessment_app.git
 ```
 
 2. Navigate to the project folder:
 
 ```bash
-cd 
+cd vesti_assessment_app
 ```
 
 3. Install dependencies:
