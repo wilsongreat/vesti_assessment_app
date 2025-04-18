@@ -81,13 +81,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                   child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: categoryTypes.length,
+                      itemCount: provider.categoryTypes.length,
                       itemBuilder: (c, i) {
-                        var category = categoryTypes[i];
+                        var category = provider.categoryTypes[i];
                         return categoryTabWidget(label: category, index: i);
                       }),
                 ),
                 Gap(20),
+
+                /// Recently Borrowed books section
                 sectionHeader(label: 'Recently Borrowed'),
                 Gap(10),
                 SizedBox(
@@ -101,7 +103,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                             image: recentlyBorrowedBook.bookImg,
                             daysLeft: recentlyBorrowedBook.borrowTime,
                             isFav: recentlyBorrowedBook.isFavourite,
-                          data: provider.recentlyBorrowedBooks[i]
+                          data: provider.recentlyBorrowedBooks[i],
+                        onTapFav: (){
+                          setState(() {
+                            recentlyBorrowedBook.isFavourite = !recentlyBorrowedBook.isFavourite!;
+                          });
+                        },
                         );
                       },
                       separatorBuilder: (c, i) {
@@ -110,6 +117,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                       itemCount: provider.recentlyBorrowedBooks.length),
                 ),
                 Gap(20),
+
+                /// Newly Arrived books section
                 sectionHeader(label: 'New Arrival'),
                 Gap(10),
                 SizedBox(
@@ -125,7 +134,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                             isFav: newArrivedBook.isFavourite,
                             title: newArrivedBook.title,
                             author: newArrivedBook.author,
-                            rating: newArrivedBook.rating, onTap: () {
+                            rating: newArrivedBook.rating,
+                          onTapFav: (){
+                            setState(() {
+                              newArrivedBook.isFavourite = !newArrivedBook.isFavourite!;
+
+                            });
+                          },
+                          onTap: () {
                           context.pushNamed(Constants.bookDetails, extra:provider.newArrivedBooks[i]);
                         },
 
@@ -137,6 +153,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                       itemCount: provider.newArrivedBooks.length),
                 ),
                 Gap(20),
+
+                /// Recommended  books section
+
                 sectionHeader(label: 'Recommended For You'),
                 Gap(10),
                 SizedBox(
@@ -152,8 +171,16 @@ class _HomePageState extends ConsumerState<HomePage> {
                             isFav: recommendedBook.isFavourite,
                             title: recommendedBook.title,
                             author: recommendedBook.author,
-                            rating: recommendedBook.rating, onTap: () {
+                            rating: recommendedBook.rating,
+                          onTapFav:(){
+                            setState(() {
+                              recommendedBook.isFavourite = !recommendedBook.isFavourite!;
+
+                            });
+                          },
+                          onTap: () {
                           context.pushNamed(Constants.bookDetails, extra:provider.recommendedBooks[i]);
+
                         },);
                       },
                       separatorBuilder: (c, i) {
@@ -188,18 +215,14 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  List<String> categoryTypes = [
-    'All',
-    'Historical Fiction',
-    'Engineering',
-    'Comedy'
-  ];
-  int categoryIndex = 0;
+
   Widget categoryTabWidget({label, index}) {
+    final provider = ref.watch(booksViewModelProvider.notifier);
+
     return GestureDetector(
       onTap: () {
         setState(() {
-          categoryIndex = index;
+          provider.categoryIndex = index;
         });
       },
       child: Container(
@@ -209,19 +232,19 @@ class _HomePageState extends ConsumerState<HomePage> {
         alignment: Alignment.center,
         margin: EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
-            color: categoryIndex == index ? AppColors.kBlue : AppColors.kWhite,
+            color: provider.categoryIndex == index ? AppColors.kBlue : AppColors.kWhite,
             border: Border.all(color: AppColors.kBorder),
             borderRadius: BorderRadius.circular(10)),
         child: TextView(
           text: label,
           fontWeight: FontWeight.w400,
-          color: categoryIndex == index ? AppColors.kWhite : AppColors.kFade,
+          color: provider.categoryIndex == index ? AppColors.kWhite : AppColors.kFade,
         ),
       ),
     );
   }
 
-  Widget recentlyBorrowedBookWidget({image, isFav, daysLeft, data}) {
+  Widget recentlyBorrowedBookWidget({image, isFav, daysLeft, data,onTapFav}) {
     return GestureDetector(
       onTap: (){
         context.pushNamed(Constants.bookDetails, extra:data);
@@ -229,7 +252,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BookCard(image: image, isFav: isFav),
+          BookCard(image: image, isFav: isFav,onTapFav:onTapFav ),
           Gap(10),
           TextView(text: '$daysLeft left')
         ],
@@ -237,54 +260,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-
-  Widget recommdedBookWidget({title, author, rating, image, isFav,data}) {
-    return SizedBox(
-      width: fullWidth(context) * .5,
-      height: fullHeight(context) * .5,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BookCard(
-            onTap: (){
-              context.pushNamed(Constants.bookDetails, extra:data);
-            },
-              height: fullHeight(context) * .3,
-              width: fullWidth(context) * .5,
-              image: image,
-              isFav: isFav),
-          Gap(10),
-          SizedBox(
-              width: fullWidth(context) * .3,
-              child: TextView(
-                text: title,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                textOverflow: TextOverflow.ellipsis,
-              )),
-          TextView(
-            text: author,
-            fontSize: 13,
-            fontWeight: FontWeight.w300,
-          ),
-          Row(
-            children: [
-              Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              Gap(5),
-              TextView(
-                text: rating,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 

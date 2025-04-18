@@ -9,7 +9,14 @@ class BooksViewModel extends _$BooksViewModel {
   bool build() {
     return false;
   }
+  int categoryIndex = 0;
 
+  List<String> categoryTypes = [
+    'All',
+    'Historical Fiction',
+    'Engineering',
+    'Comedy'
+  ];
   List<BookModel> recentlyBorrowedBooks = [
     BookModel(
         isFavourite: false,

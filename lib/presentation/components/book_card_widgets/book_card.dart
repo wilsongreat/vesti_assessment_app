@@ -7,19 +7,20 @@ import 'package:vesti_assessment_app/utils/screen_utils.dart';
 
 class BookCard extends ConsumerStatefulWidget {
   final String image;
-   bool? isFav;
+   final bool? isFav;
   final double? width, height;
   final VoidCallback? onTap;
-    BookCard( {super.key, required this.image,  this.isFav , this.width, this.height, this.onTap});
+  final VoidCallback? onTapFav;
+    const BookCard( {super.key, required this.image,required this.onTapFav, this.isFav , this.width, this.height, this.onTap});
 
   @override
   ConsumerState<BookCard> createState() => _BookCardState();
 }
 
+
 class _BookCardState extends ConsumerState<BookCard> {
   @override
   Widget build(BuildContext context) {
-    late bool _isFav;
 
     return Container(
       alignment: Alignment.topRight,
@@ -35,13 +36,7 @@ class _BookCardState extends ConsumerState<BookCard> {
           widget.onTap;
         },
         child: GestureDetector(
-          onTap: (){
-            setState(() {
-              _isFav = !widget.isFav!;
-            });
-
-            debugPrint('TAPPed:${widget.isFav}');
-          },
+          onTap: widget.onTapFav,
           child: Container(
             height: 30,
             width: 30,
@@ -55,7 +50,7 @@ class _BookCardState extends ConsumerState<BookCard> {
               colorFilter: ColorFilter.mode(
                 widget.isFav!
                     ? AppColors.kRed
-                    : AppColors.kFade.withOpacity(0.3),
+                    : AppColors.kFade.withValues(alpha: 0.3),
                 BlendMode.srcIn,
               ),
             ),

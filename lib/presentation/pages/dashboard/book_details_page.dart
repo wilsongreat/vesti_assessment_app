@@ -121,7 +121,11 @@ class BookDetailsPage extends ConsumerWidget {
                             color: AppColors.kBorder.withValues(alpha: .5),
                             shape: BoxShape.circle),
                         child: SvgPicture.asset(AppAssets.heartIcon,
-                            height: 20, width: 20, color: book.isFavourite! ? AppColors.kRed : AppColors.kFade.withValues(alpha: .3),),
+
+                            height: 20, width: 20, colorFilter:ColorFilter.mode(
+                            book.isFavourite! ? AppColors.kRed : AppColors.kFade.withValues(alpha: .3),
+                            BlendMode.srcIn,
+                          ),),
                       ),
                     ],
                   ),

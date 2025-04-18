@@ -1,6 +1,6 @@
 class BookModel {
   final String? title, author, rating, borrowTime, bookImg;
-  final bool? isFavourite;
+  bool? isFavourite;
 
   BookModel(
       {this.isFavourite,

@@ -6,7 +6,8 @@ class NewBookArrivalCard extends StatelessWidget {
   final String? image, daysLeft,title,author,rating;
   final bool? isFav;
   final VoidCallback? onTap;
-  const NewBookArrivalCard({super.key, this.image, this.isFav, this.daysLeft, this.title, this.author, this.rating,  this.onTap});
+  final VoidCallback? onTapFav;
+  const NewBookArrivalCard({super.key, this.image, this.isFav, this.daysLeft, this.title, this.author, this.rating,  this.onTap, this.onTapFav});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +20,12 @@ class NewBookArrivalCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BookCard(
+              onTapFav: onTapFav,
                 height: fullHeight(context) * .3,
                 width: fullWidth(context) * .5,
                 image: image!,
-                isFav: isFav!),
+                isFav: isFav!
+            ),
             Gap(10),
             SizedBox(
                 width: fullWidth(context) * .3,
