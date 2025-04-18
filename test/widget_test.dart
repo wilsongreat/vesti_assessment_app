@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vesti_assessment_app/presentation/pages/auth/onboard_screen.dart';
 
 void main() {
-  testWidgets('OnboardScreen shows title and Get Started button', (WidgetTester tester) async {
-    // Pump the app
+  testWidgets('OnboardScreen renders with title, subtitle, and Get Started button', (WidgetTester tester) async {
     await tester.pumpWidget(
-      ProviderScope(
+       ProviderScope(
         child: MaterialApp(
           home: OnboardScreen(),
         ),
@@ -16,7 +15,16 @@ void main() {
 
     await tester.pumpAndSettle();
 
+    expect(find.byType(Image), findsWidgets);
+
+
     expect(find.text('Enjoy the Best Features'), findsOneWidget);
+    
+    expect(
+      find.text('Experience the magic of requesting for books anytime,anywhere'),
+      findsOneWidget,
+    );
+
 
     expect(find.text('Get Started'), findsOneWidget);
   });
