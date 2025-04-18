@@ -42,6 +42,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             CircleAvatar(
                               radius: 20,
                               backgroundColor: AppColors.kBlue,
+                              backgroundImage: AssetImage(AppAssets.avatarIcon),
                             ),
                             Gap(10),
                             Column(

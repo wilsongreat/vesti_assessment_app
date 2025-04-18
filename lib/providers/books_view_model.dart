@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vesti_assessment_app/data/app_assets.dart';
 import 'package:vesti_assessment_app/data/models/book_model.dart';
 

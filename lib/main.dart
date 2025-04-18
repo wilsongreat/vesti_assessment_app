@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vesti_assessment_app/config/app_colors.dart';
 import 'package:vesti_assessment_app/config/router.dart';
 
-import 'presentation/pages/auth/onboard_screen.dart';
 
 final GlobalKey<NavigatorState>  appNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 

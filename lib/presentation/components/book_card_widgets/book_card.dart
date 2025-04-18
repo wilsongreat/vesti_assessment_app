@@ -3,15 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vesti_assessment_app/config/app_colors.dart';
 import 'package:vesti_assessment_app/data/app_assets.dart';
-import 'package:vesti_assessment_app/providers/books_view_model.dart';
 import 'package:vesti_assessment_app/utils/screen_utils.dart';
 
 class BookCard extends ConsumerStatefulWidget {
   final String image;
-  bool? isFav;
+   bool? isFav;
   final double? width, height;
   final VoidCallback? onTap;
-   BookCard( {super.key, required this.image,  this.isFav = false, this.width, this.height, this.onTap});
+    BookCard( {super.key, required this.image,  this.isFav , this.width, this.height, this.onTap});
 
   @override
   ConsumerState<BookCard> createState() => _BookCardState();
@@ -20,6 +19,7 @@ class BookCard extends ConsumerStatefulWidget {
 class _BookCardState extends ConsumerState<BookCard> {
   @override
   Widget build(BuildContext context) {
+    late bool _isFav;
 
     return Container(
       alignment: Alignment.topRight,
@@ -37,7 +37,7 @@ class _BookCardState extends ConsumerState<BookCard> {
         child: GestureDetector(
           onTap: (){
             setState(() {
-              widget.isFav = !widget.isFav!;
+              _isFav = !widget.isFav!;
             });
 
             debugPrint('TAPPed:${widget.isFav}');
@@ -52,8 +52,12 @@ class _BookCardState extends ConsumerState<BookCard> {
               AppAssets.heartIcon,
               height: 20,
               width: 20,
-              color:
-              widget.isFav! ? AppColors.kRed : AppColors.kFade.withValues(alpha: .3),
+              colorFilter: ColorFilter.mode(
+                widget.isFav!
+                    ? AppColors.kRed
+                    : AppColors.kFade.withOpacity(0.3),
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ),
